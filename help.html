@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TonnetzViz Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #2c3e50;
+      background: #f8f9fa;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 8px;
+      color: #1a252f;
+    }
+
+    .subtitle {
+      font-size: 1.05em;
+      color: #6c757d;
+      margin-bottom: 32px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #dee2e6;
+      margin: 32px 0;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e9ecef;
+      color: #1a252f;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: #2c3e50;
+    }
+
+    h4 {
+      font-size: 1em;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: #34495e;
+    }
+
+    p {
+      margin-bottom: 14px;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    ul, ol {
+      margin-bottom: 14px;
+      padding-left: 28px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    strong { color: #1a252f; }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      background: #e9ecef;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 16px 20px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-size: 0.88em;
+      line-height: 1.5;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+      font-size: 0.92em;
+    }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background: #2c3e50;
+      color: #fff;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background: #f1f3f5;
+    }
+
+    .toc {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin-bottom: 32px;
+    }
+    .toc h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.1em;
+    }
+    .toc ol {
+      margin-bottom: 0;
+    }
+    .toc li {
+      margin-bottom: 4px;
+    }
+
+    .data-flow-diagram {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 16px 20px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.85em;
+      line-height: 1.5;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">&larr; Back to TonnetzViz</a>
+
+    <h1>TonnetzViz: Complete Guide</h1>
+    <p class="subtitle">A comprehensive reference for the TonnetzViz music visualizer &mdash; covering the app's features, the music theory behind the Tonnetz, and the mathematics that make it work.</p>
+    <p style="margin-bottom: 32px;"><strong>Singer?</strong> See the <a href="vocalist-guide.html">Singer's Guide</a> for a plain-language walkthrough focused on vocal use and accompaniment.</p>
+
+    <div class="toc">
+      <h3>Table of Contents</h3>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#quick-start">Quick Start</a></li>
+        <li><a href="#history-theory">The Tonnetz: History &amp; Theory</a></li>
+        <li><a href="#chromatic-system">The 12-Tone Chromatic System</a></li>
+        <li><a href="#intervals">Intervals</a></li>
+        <li><a href="#standard-tonnetz">The Standard Tonnetz [3, 4, 5]</a></li>
+        <li><a href="#trichord-types">Trichord Types</a></li>
+        <li><a href="#grid-formula">The Grid Formula</a></li>
+        <li><a href="#lattice-mapping">How Numbers Map to the Lattice</a></li>
+        <li><a href="#neo-riemannian">Neo-Riemannian Transformations</a></li>
+        <li><a href="#features">Features Reference</a></li>
+        <li><a href="#tuning">Tuning Systems</a></li>
+        <li><a href="#input">Input Methods</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- Overview -->
+    <h2 id="overview">Overview</h2>
+    <p><strong>TonnetzViz</strong> is a web-based music visualizer that receives musical input and displays it in real time on a <em>Tonnetz</em> &mdash; a hexagonal lattice where each node is one of the 12 pitch classes and every edge represents a musical interval.</p>
+    <p>The project exists in two versions:</p>
+    <table>
+      <tr><th>Version</th><th>URL</th><th>Description</th></tr>
+      <tr><td><strong>Original</strong></td><td><code>http://localhost:8083</code></td><td>The core Tonnetz visualizer with MIDI, keyboard, and microphone input</td></tr>
+      <tr><td><strong>TonnetzMic</strong></td><td><code>http://localhost:8084</code></td><td>Extended version with Chicken Wire (dual) toggle, Trace Trajectory button, and trichord tooltips</td></tr>
+    </table>
+    <p>Both versions share the same JavaScript codebase (<code>js/</code> directory). The TonnetzMic version has its own <code>tonnetzmic/</code> folder that symlinks or copies the shared assets and provides a modified <code>index.html</code> with additional UI controls.</p>
+
+    <hr>
+
+    <!-- Quick Start -->
+    <h2 id="quick-start">Quick Start</h2>
+    <h3>Requirements</h3>
+    <ul>
+      <li>A modern web browser (Chrome, Firefox, Edge)</li>
+      <li>Python 3 (for the local HTTP servers)</li>
+      <li>Optional: a MIDI controller connected to your computer</li>
+    </ul>
+
+    <h3>Running</h3>
+    <p>Double-click <strong><code>start-servers.bat</code></strong> (Windows) to launch both servers:</p>
+    <pre><code>Original:   http://localhost:8083
+TonnetzMic: http://localhost:8084</code></pre>
+    <p>Or manually:</p>
+    <pre><code>python -m http.server 8083 --bind localhost --directory .
+python -m http.server 8084 --bind localhost --directory tonnetzmic</code></pre>
+    <p>Open either URL in your browser. The Tonnetz grid appears immediately. Play notes via MIDI, your computer keyboard, or the microphone to see them light up on the lattice.</p>
+
+    <hr>
+
+    <!-- History & Theory -->
+    <h2 id="history-theory">The Tonnetz: History &amp; Theory</h2>
+    <h3>Origins</h3>
+    <p>The <strong>Tonnetz</strong> (German: "tone network") is a conceptual lattice that maps the relationships between musical pitches.</p>
+    <ul>
+      <li><strong>1739</strong> &mdash; Leonhard Euler first described a spatial arrangement of pitches related by perfect fifths and major thirds in his <em>Tentamen novae theoriae musicae</em>.</li>
+      <li><strong>1866&ndash;1880</strong> &mdash; Hugo Riemann formalized the Tonnetz as a central tool in his theory of harmonic function, arranging tones in a two-dimensional grid where the axes represent consonant intervals (thirds and fifths).</li>
+      <li><strong>1990s&ndash;present</strong> &mdash; The <strong>neo-Riemannian</strong> revival (David Lewin, Richard Cohn, and others) re-examined the Tonnetz as a way to model chromatic harmony that does not rely on traditional key-based analysis. In this modern view, the Tonnetz is a torus &mdash; its edges wrap around because we work modulo 12 pitch classes.</li>
+    </ul>
+
+    <h3>Core Idea</h3>
+    <p>Every node is one of the 12 pitch classes. Every edge connects two pitches separated by a fixed interval. Because there are exactly 12 pitch classes and the intervals tile evenly, the lattice wraps around on itself in both directions, forming a <strong>torus</strong> (like the surface of a doughnut).</p>
+    <p>The crucial visual property: <strong>any chord or collection of notes always produces the same geometric shape, regardless of transposition.</strong> A C major triad and an F# major triad are both downward-pointing triangles on the standard Tonnetz. This makes harmonic relationships visible at a glance.</p>
+
+    <hr>
+
+    <!-- 12-Tone Chromatic System -->
+    <h2 id="chromatic-system">The 12-Tone Chromatic System</h2>
+    <p>Western music divides the octave into 12 equally spaced semitones. Because octaves are treated as equivalent (a C in any octave is "the same note"), we work with <strong>pitch classes</strong> numbered 0 through 11:</p>
+    <table>
+      <tr><th>Pitch class</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr>
+      <tr><td><strong>Note name</strong></td><td>C</td><td>C#</td><td>D</td><td>D#</td><td>E</td><td>F</td><td>F#</td><td>G</td><td>G#</td><td>A</td><td>A#</td><td>B</td></tr>
+    </table>
+    <p>All arithmetic on pitch classes is done <strong>modulo 12</strong>. Moving up by 3 semitones from pitch 10 (A#) gives <code>(10 + 3) % 12 = 1</code> (C#). This is the fundamental operation behind the Tonnetz: every interval is an addition mod 12.</p>
+    <p>In the code (<code>tonnetz.js</code>):</p>
+    <pre><code>var TONE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];</code></pre>
+
+    <hr>
+
+    <!-- Intervals -->
+    <h2 id="intervals">Intervals</h2>
+    <p>An <strong>interval</strong> is the distance between two pitches, measured in semitones. Because we work mod 12, going up by <code>n</code> semitones is the same as going down by <code>12 - n</code> semitones. This gives us the concept of <strong>interval class</strong> &mdash; the smaller of the two complementary distances.</p>
+    <table>
+      <tr><th>Semitones</th><th>Interval name</th><th>Abbr.</th><th>Just ratio</th><th>Cents (ET)</th><th>Notes (from C)</th></tr>
+      <tr><td>0</td><td>Unison</td><td>P1</td><td>1:1</td><td>0</td><td>C &rarr; C</td></tr>
+      <tr><td>1</td><td>Minor 2nd (semitone)</td><td>m2</td><td>25:24</td><td>100</td><td>C &rarr; C#</td></tr>
+      <tr><td>2</td><td>Major 2nd (whole tone)</td><td>M2</td><td>9:8</td><td>200</td><td>C &rarr; D</td></tr>
+      <tr><td>3</td><td>Minor 3rd</td><td>m3</td><td>6:5</td><td>300</td><td>C &rarr; D#</td></tr>
+      <tr><td>4</td><td>Major 3rd</td><td>M3</td><td>5:4</td><td>400</td><td>C &rarr; E</td></tr>
+      <tr><td>5</td><td>Perfect 4th</td><td>P4</td><td>4:3</td><td>500</td><td>C &rarr; F</td></tr>
+      <tr><td>6</td><td>Tritone</td><td>TT</td><td>45:32</td><td>600</td><td>C &rarr; F#</td></tr>
+      <tr><td>7</td><td>Perfect 5th</td><td>P5</td><td>3:2</td><td>700</td><td>C &rarr; G</td></tr>
+      <tr><td>8</td><td>Minor 6th</td><td>m6</td><td>8:5</td><td>800</td><td>C &rarr; G#</td></tr>
+      <tr><td>9</td><td>Major 6th</td><td>M6</td><td>5:3</td><td>900</td><td>C &rarr; A</td></tr>
+      <tr><td>10</td><td>Minor 7th</td><td>m7</td><td>9:5</td><td>1000</td><td>C &rarr; A#</td></tr>
+      <tr><td>11</td><td>Major 7th</td><td>M7</td><td>15:8</td><td>1100</td><td>C &rarr; B</td></tr>
+    </table>
+    <p>Note that intervals 7&ndash;11 are the inversions (complements) of intervals 5&ndash;1 respectively. For example, a perfect 5th up (7 semitones) is the same pitch class as a perfect 4th down (5 semitones), since 7 + 5 = 12.</p>
+
+    <hr>
+
+    <!-- Standard Tonnetz -->
+    <h2 id="standard-tonnetz">The Standard Tonnetz [3, 4, 5]</h2>
+    <p>The default Tonnetz uses the trichord type <strong>[3, 4, 5]</strong> &mdash; meaning the three edge directions of the hexagonal grid represent:</p>
+    <ul>
+      <li><strong>3 semitones</strong> &mdash; minor 3rd</li>
+      <li><strong>4 semitones</strong> &mdash; major 3rd</li>
+      <li><strong>5 semitones</strong> &mdash; perfect 5th (since 3 + 4 = 7, and 12 - 7 = 5)</li>
+    </ul>
+    <p>This is the canonical choice because:</p>
+    <ol>
+      <li><strong>Triadic harmony</strong>: the intervals 3 and 4 are exactly the minor and major third &mdash; the two intervals that build major and minor triads. Any three mutually-adjacent nodes form a triad.</li>
+      <li><strong>Visual clarity</strong>: major triads appear as one orientation of triangle (downward-pointing in Riemannian layout), minor triads as the other (upward-pointing). Every triangular face of the lattice is a triad.</li>
+      <li><strong>Historical precedent</strong>: this is the arrangement Euler and Riemann used &mdash; fifths along one axis, thirds along the other.</li>
+      <li><strong>Neo-Riemannian operations</strong>: the P, L, and R transformations correspond to simple geometric moves &mdash; flipping a triangle across one of its three edges.</li>
+    </ol>
+
+    <hr>
+
+    <!-- Trichord Types -->
+    <h2 id="trichord-types">Trichord Types</h2>
+    <p>The Tonnetz is not limited to [3, 4, 5]. The app supports all <strong>12 partitions</strong> of the number 12 into an ordered triple [a, b, c] where <code>a + b + c = 12</code> and <code>a &le; b &le; c</code>. Each partition produces a different lattice where the edge directions represent different intervals.</p>
+    <p>The trichord selector (the table at the bottom of the screen) lets you choose any of these:</p>
+
+    <h3>Row 1</h3>
+    <table>
+      <tr><th>Trichord</th><th>Intervals</th><th>Musical meaning</th><th>Grid character</th></tr>
+      <tr><td><strong>[1, 1, 10]</strong></td><td>semitone + semitone + minor 7th</td><td>Chromatic cluster &mdash; two adjacent semitones. Extremely compact; the lattice is dominated by the large 10-semitone gap.</td><td>Very uneven; most connections jump nearly an octave</td></tr>
+      <tr><td><strong>[1, 2, 9]</strong></td><td>semitone + whole tone + major 6th</td><td>Three notes from a chromatic scale fragment. The 9-semitone edge spans a major 6th.</td><td>Asymmetric; one very long and two very short intervals</td></tr>
+      <tr><td><strong>[1, 3, 8]</strong></td><td>semitone + minor 3rd + minor 6th</td><td>The Phrygian trichord &mdash; evokes the distinctive flat-2nd sound of the Phrygian mode.</td><td>Moderately uneven</td></tr>
+      <tr><td><strong>[1, 4, 7]</strong></td><td>semitone + major 3rd + perfect 5th</td><td>A major 7th chord fragment (root, 3rd, 7th with the 5th missing, or seen as 7th, root, 3rd).</td><td>One very small step beside two large ones</td></tr>
+      <tr><td><strong>[1, 5, 6]</strong></td><td>semitone + perfect 4th + tritone</td><td>A semitone paired with a 4th and a tritone. Found in Lydian-influenced harmonies.</td><td>The tritone creates symmetry-breaking</td></tr>
+      <tr><td><strong>[2, 2, 8]</strong></td><td>whole tone + whole tone + minor 6th</td><td>Whole-tone cluster &mdash; two consecutive whole tones. Subset of the whole-tone scale.</td><td>Very uneven; resembles [1,1,10] but wider</td></tr>
+    </table>
+
+    <h3>Row 2</h3>
+    <table>
+      <tr><th>Trichord</th><th>Intervals</th><th>Musical meaning</th><th>Grid character</th></tr>
+      <tr><td><strong>[2, 3, 7]</strong></td><td>whole tone + minor 3rd + perfect 5th</td><td>The sus2 chord (e.g., C&ndash;D&ndash;G). Common in modern pop and modal music.</td><td>Fairly open; the P5 edge dominates</td></tr>
+      <tr><td><strong>[2, 4, 6]</strong></td><td>whole tone + major 3rd + tritone</td><td>A dominant 7th chord fragment (e.g., the 3rd, 5th, and b7th of a dom7). The tritone gives it tension.</td><td>Moderate asymmetry</td></tr>
+      <tr><td><strong>[2, 5, 5]</strong></td><td>whole tone + perfect 4th + perfect 4th</td><td>Quartal harmony &mdash; stacked 4ths (e.g., C&ndash;F&ndash;Bb or D&ndash;G&ndash;C). Two of the three intervals are equal, creating a more symmetric lattice.</td><td>Semi-regular; two equal edges</td></tr>
+      <tr><td><strong>[3, 4, 5]</strong></td><td>minor 3rd + major 3rd + perfect 5th</td><td><strong>The standard Tonnetz.</strong> Major and minor triads. Every face is a triad. This is the default and the most musically rich choice.</td><td>Highly regular and balanced</td></tr>
+      <tr><td><strong>[3, 3, 6]</strong></td><td>minor 3rd + minor 3rd + tritone</td><td>The diminished triad (e.g., C&ndash;Eb&ndash;Gb). Contains two equal minor 3rds and a tritone. The diminished 7th chord occupies exactly 4 adjacent nodes.</td><td>Regular pairs; tritone axis of symmetry</td></tr>
+      <tr><td><strong>[4, 4, 4]</strong></td><td>major 3rd + major 3rd + major 3rd</td><td>The augmented triad (e.g., C&ndash;E&ndash;G#). All three intervals are equal, making the lattice perfectly symmetric. Only 4 distinct augmented triads exist, so the lattice has high redundancy.</td><td>Perfectly regular; 3-fold symmetric</td></tr>
+    </table>
+
+    <hr>
+
+    <!-- Grid Formula -->
+    <h2 id="grid-formula">The Grid Formula</h2>
+    <p>The heart of the Tonnetz is a formula that assigns a pitch class to every position in the hexagonal grid. In <code>tonnetz.js</code>, the code computes:</p>
+    <pre><code>var da = this.intervalB - this.intervalA;
+var dv = this.intervalA + this.intervalB;
+
+// For each grid position (i, j):
+((da * i - dv * j) % 12 + 144) % 12</code></pre>
+
+    <h3>What <code>da</code> and <code>dv</code> mean</h3>
+    <p>Given intervals <code>a</code> (intervalA) and <code>b</code> (intervalB):</p>
+    <ul>
+      <li><strong><code>da = b - a</code></strong> &mdash; the <em>difference</em> between the two intervals. This is the pitch change when moving one step along the vertical axis (in Sonome layout) or horizontal axis (in Riemannian layout).</li>
+      <li><strong><code>dv = a + b</code></strong> &mdash; the <em>sum</em> of the two intervals, which equals <code>12 - c</code> where <code>c</code> is the third interval. This is the pitch change when moving along the other axis.</li>
+    </ul>
+
+    <h3>Why <code>+ 144</code>?</h3>
+    <p>JavaScript's <code>%</code> operator can return negative values for negative inputs. Adding 144 (= 12 &times; 12) before taking mod 12 guarantees a positive result. Since <code>i</code> and <code>j</code> range over at most a few dozen values, 144 is more than enough to offset any negative intermediate value.</p>
+
+    <h3>The two sub-lattices</h3>
+    <p>The hexagonal grid is built from <strong>two interleaved rectangular sub-lattices</strong>. The code generates nodes in pairs:</p>
+    <pre><code>// Sub-lattice A: at grid positions (i, j)
+addNode(((da*i - dv*j) % 12 + 144) % 12,
+        W/2 - j*u,
+        H/2 + i*yUnit);
+
+// Sub-lattice B: offset by half a cell, shifted by intervalB
+addNode(((da*i - dv*j + this.intervalB) % 12 + 144) % 12,
+        W/2 - (j - 0.5)*u,
+        H/2 + (i + 0.5)*yUnit);</code></pre>
+    <p>Sub-lattice B is displaced by half a unit in both directions and has its pitch class shifted by <code>intervalB</code>. Together, the two sub-lattices produce the honeycomb pattern.</p>
+
+    <h3>Worked Example: Standard Tonnetz [3, 4, 5]</h3>
+    <p>With <code>intervalA = 3</code>, <code>intervalB = 4</code>:</p>
+    <ul>
+      <li><code>da = 4 - 3 = 1</code></li>
+      <li><code>dv = 3 + 4 = 7</code></li>
+    </ul>
+    <p>At the center of the grid <code>(i=0, j=0)</code>:</p>
+    <ul>
+      <li>Sub-lattice A: <code>((1*0 - 7*0) % 12 + 144) % 12 = 0</code> &rarr; <strong>C</strong></li>
+      <li>Sub-lattice B: <code>((1*0 - 7*0 + 4) % 12 + 144) % 12 = 4</code> &rarr; <strong>E</strong></li>
+    </ul>
+    <p>Move one step in the vertical direction <code>(i=1, j=0)</code>:</p>
+    <ul>
+      <li>Sub-lattice A: <code>((1*1 - 7*0) % 12 + 144) % 12 = 1</code> &rarr; <strong>C#</strong></li>
+    </ul>
+    <p>Move one step in the horizontal direction <code>(i=0, j=1)</code>:</p>
+    <ul>
+      <li>Sub-lattice A: <code>((1*0 - 7*1) % 12 + 144) % 12 = ((-7) % 12 + 144) % 12 = 5</code> &rarr; <strong>F</strong></li>
+    </ul>
+    <p>You can verify: from C, moving to the right neighbor (along the <code>dv</code> direction) changes pitch by 7 semitones, which is a perfect 5th &mdash; exactly what the Tonnetz should show.</p>
+
+    <hr>
+
+    <!-- How Numbers Map to the Lattice -->
+    <h2 id="lattice-mapping">How Numbers Map to the Lattice</h2>
+
+    <h3>Hexagonal Geometry</h3>
+    <p>Each node has exactly <strong>6 neighbors</strong>, connected by three pairs of opposing directions. In the <strong>Sonome</strong> layout, the hex directions relative to a node at the origin are:</p>
+    <table>
+      <tr><th>Direction</th><th>Displacement (x, y)</th><th>Interval</th></tr>
+      <tr><td>Upper-left</td><td><code>(-0.5*sqrt(3)*u, -0.5*u)</code></td><td>+a semitones</td></tr>
+      <tr><td>Upper-right</td><td><code>(+0.5*sqrt(3)*u, -0.5*u)</code></td><td>+b semitones</td></tr>
+      <tr><td>Up</td><td><code>(0, -u)</code></td><td>+(a+b) semitones</td></tr>
+      <tr><td>Lower-right</td><td><code>(+0.5*sqrt(3)*u, +0.5*u)</code></td><td>-a semitones (= +12-a)</td></tr>
+      <tr><td>Lower-left</td><td><code>(-0.5*sqrt(3)*u, +0.5*u)</code></td><td>-b semitones (= +12-b)</td></tr>
+      <tr><td>Down</td><td><code>(0, +u)</code></td><td>-(a+b) semitones (= +c)</td></tr>
+    </table>
+    <p>In the <strong>Riemannian</strong> layout, the coordinate system is rotated 90 degrees clockwise: <code>(x, y) &rarr; (-y, x)</code>. This makes the third interval (a+b) run horizontally instead of vertically.</p>
+
+    <h3>Unit distance</h3>
+    <p>The unit distance <code>u</code> (the distance between adjacent nodes) is calculated from the window size:</p>
+    <pre><code>u = (W + H) / density;</code></pre>
+    <p>where <code>density</code> defaults to 22. Larger density values produce a finer (more zoomed-out) grid. The user can adjust density with the mouse wheel or the <code>+</code>/<code>-</code> keys.</p>
+
+    <h3>Neighbor Relationships</h3>
+    <p>From the code in <code>getNeighborXYDiff()</code>, given two pitch classes <code>t1</code> and <code>t2</code>, the function determines which direction the edge goes by checking <code>(t2 - t1 + 12) % 12</code> against the known intervals <code>a</code>, <code>b</code>, <code>a+b</code>, and their complements.</p>
+
+    <hr>
+
+    <!-- Neo-Riemannian Transformations -->
+    <h2 id="neo-riemannian">Neo-Riemannian Transformations</h2>
+    <p>The standard Tonnetz [3, 4, 5] supports three fundamental transformations from neo-Riemannian theory. Each one takes a triad (a triangular face) and produces a new triad by moving exactly one note by one or two semitones:</p>
+
+    <h3>P (Parallel)</h3>
+    <p>Changes the quality of a triad without changing its root (in the classical sense):</p>
+    <ul>
+      <li>C major (C&ndash;E&ndash;G) &rarr; C minor (C&ndash;Eb&ndash;G): the 3rd moves down by 1 semitone</li>
+      <li>C minor (C&ndash;Eb&ndash;G) &rarr; C major (C&ndash;E&ndash;G): the 3rd moves up by 1 semitone</li>
+    </ul>
+    <p><strong>On the Tonnetz:</strong> the triangle flips across its longest edge (the perfect 5th edge).</p>
+
+    <h3>L (Leading-tone exchange)</h3>
+    <p>Moves the note <em>opposite</em> the minor 3rd edge:</p>
+    <ul>
+      <li>C major (C&ndash;E&ndash;G) &rarr; E minor (E&ndash;G&ndash;B): C moves up to B</li>
+      <li>E minor (E&ndash;G&ndash;B) &rarr; C major (C&ndash;E&ndash;G): B moves down to C</li>
+    </ul>
+    <p><strong>On the Tonnetz:</strong> the triangle flips across its minor 3rd edge.</p>
+
+    <h3>R (Relative)</h3>
+    <p>Moves the note opposite the major 3rd edge:</p>
+    <ul>
+      <li>C major (C&ndash;E&ndash;G) &rarr; A minor (A&ndash;C&ndash;E): G moves down to A</li>
+      <li>A minor (A&ndash;C&ndash;E) &rarr; C major (C&ndash;E&ndash;G): A moves up to G</li>
+    </ul>
+    <p><strong>On the Tonnetz:</strong> the triangle flips across its major 3rd edge.</p>
+
+    <h3>Compound Transformations</h3>
+    <p>Sequences of P, L, R generate a rich set of harmonic progressions. For example:</p>
+    <ul>
+      <li><strong>PL</strong> (P then L): C major &rarr; C minor &rarr; Ab major &mdash; a chromatic mediant relationship</li>
+      <li><strong>PR</strong> (P then R): C major &rarr; C minor &rarr; Eb major &mdash; relative major of the parallel minor</li>
+      <li><strong>LR</strong> repeated: generates a cycle through all 24 major/minor triads</li>
+    </ul>
+    <p>These are visible on the Tonnetz as paths through adjacent triangles, making complex harmonic motion geometrically intuitive.</p>
+
+    <hr>
+
+    <!-- Features Reference -->
+    <h2 id="features">Features Reference</h2>
+
+    <h3>Trichord Selector</h3>
+    <p>The table at the bottom of the screen lets you choose any of the 12 trichord types. Click a cell to reconfigure the lattice. The active selection is highlighted. Each cell has a tooltip describing the musical meaning.</p>
+
+    <h3>Layout</h3>
+    <p>Two layout options are available under Appearance:</p>
+    <ul>
+      <li><strong>Riemannian</strong> (default): the a+b interval (perfect 5th in standard) runs horizontally. The Euler/Riemann historical convention.</li>
+      <li><strong>Sonome</strong>: the a+b interval runs vertically. Matches the layout of the Sonome/AXiS-49 hexagonal MIDI controllers.</li>
+    </ul>
+
+    <h3>Dual / Chicken Wire</h3>
+    <p>Clicking the <strong>Dual</strong> button swaps <code>intervalA</code> and <code>intervalB</code>, producing the <strong>dual graph</strong> of the Tonnetz (sometimes called the "chicken wire" Tonnetz). In the standard case, swapping [3,4] to [4,3] means:</p>
+    <ul>
+      <li><strong>Normal [3,4,5]</strong>: nodes are <em>pitch classes</em>, triangular faces are <em>triads</em></li>
+      <li><strong>Dual [4,3,5]</strong>: the geometric roles reverse &mdash; what were triads become more prominent</li>
+    </ul>
+
+    <h3>Trace Trajectory</h3>
+    <p>When enabled, the app draws a persistent path connecting the notes as you play them. Each new note is connected to the nearest instance of its pitch class on the grid. The trajectory is drawn as an orange line with dot markers.</p>
+    <ul>
+      <li><strong>Orange dots</strong>: visited notes (most recent is brighter red)</li>
+      <li><strong>Faded orange highlights</strong>: pitch classes that have been visited remain subtly marked even when no longer sounding</li>
+      <li>The trajectory resets when the trichord type changes or when trace is toggled off</li>
+    </ul>
+
+    <h3>Unit Cell</h3>
+    <p>Under Appearance &gt; Show/hide, the <strong>Unit cell</strong> checkbox draws a parallelogram outlining the fundamental domain &mdash; the smallest region that tiles to produce the entire infinite Tonnetz. This is only drawn for the standard [3,4,5] trichord.</p>
+    <p>The unit cell contains all 12 pitch classes exactly once. Because the Tonnetz wraps around (it's a torus), tiling this parallelogram in both directions reproduces the full lattice.</p>
+
+    <h3>Ghost Tones</h3>
+    <p>When a note is released, it enters a <strong>ghost</strong> state &mdash; drawn with a dimmer color for a configurable duration (default: 500ms). This provides visual persistence so you can see recently played notes fading away. Set to 0 to disable.</p>
+
+    <h3>Sustain</h3>
+    <p>The sustain pedal (MIDI CC 64) keeps notes visually active after they are released, shown in a distinct "sustain" color. Sustain can be disabled via the Controls panel checkbox.</p>
+
+    <h3>Tone Names &amp; Triad Names</h3>
+    <p>Under Appearance, toggle visibility of:</p>
+    <ul>
+      <li><strong>Tone names</strong>: note labels (C, C#, D, ...) at each node</li>
+      <li><strong>Triad names</strong>: labels on each triangular face showing the triad name (uppercase for major, lowercase for minor)</li>
+    </ul>
+
+    <h3>Colour Schemes</h3>
+    <p>Three built-in schemes: Default, Green on Black, and Apollo. You can clone any scheme to create a custom one. The colour scheme editor lets you configure background, node colors (for each state: OFF, GHOST, SUSTAIN, ON), and face colors (major/minor triads).</p>
+
+    <h3>Zoom</h3>
+    <p>Use the mouse wheel or <code>+</code>/<code>-</code> keys to zoom in and out. This changes the <code>density</code> parameter (range 5&ndash;50, default 22).</p>
+
+    <h3>Panic &amp; Restart</h3>
+    <ul>
+      <li><strong>Panic</strong>: immediately turns off all notes in all channels (MIDI + keyboard + microphone)</li>
+      <li><strong>Restart</strong>: reloads the page</li>
+    </ul>
+
+    <hr>
+
+    <!-- Tuning Systems -->
+    <h2 id="tuning">Tuning Systems</h2>
+    <p>The built-in synthesizer supports three tuning systems, selectable under the Sound panel. All tunings reference <strong>A4 = 440 Hz</strong> and calculate frequencies relative to a configurable base note.</p>
+
+    <h3>Equal Temperament (ET)</h3>
+    <p>The standard modern tuning. The octave is divided into 12 exactly equal semitones, each with a frequency ratio of <code>2^(1/12)</code>.</p>
+    <p><strong>Formula</strong> (from <code>audio.js</code>):</p>
+    <pre><code>frequency = Math.pow(2, (pitch - 69) / 12) * 440;</code></pre>
+    <p>where <code>pitch</code> is the MIDI note number (A4 = 69).</p>
+    <table>
+      <tr><th>Semitones from A4</th><th>Ratio</th><th>Cents</th></tr>
+      <tr><td>0</td><td>1.0000</td><td>0</td></tr>
+      <tr><td>1</td><td>1.0595</td><td>100</td></tr>
+      <tr><td>2</td><td>1.1225</td><td>200</td></tr>
+      <tr><td>3</td><td>1.1892</td><td>300</td></tr>
+      <tr><td>4</td><td>1.2599</td><td>400</td></tr>
+      <tr><td>5</td><td>1.3348</td><td>500</td></tr>
+      <tr><td>6</td><td>1.4142</td><td>600</td></tr>
+      <tr><td>7</td><td>1.4983</td><td>700</td></tr>
+      <tr><td>8</td><td>1.5874</td><td>800</td></tr>
+      <tr><td>9</td><td>1.6818</td><td>900</td></tr>
+      <tr><td>10</td><td>1.7818</td><td>1000</td></tr>
+      <tr><td>11</td><td>1.8877</td><td>1100</td></tr>
+    </table>
+
+    <h3>Pythagorean Tuning</h3>
+    <p>All intervals are derived from stacking <strong>pure perfect fifths</strong> (3:2 ratio). This produces very pure fifths and fourths but relatively harsh thirds.</p>
+    <p><strong>Formula</strong> (from <code>audio.js</code>):</p>
+    <pre><code>var tuned_freq = Math.pow(2, (base_tuning - 69) / 12) * 440;
+var ratios = [1, 256/243, 9/8, 32/27, 81/64, 4/3, 729/512, 3/2, 128/81, 27/16, 16/9, 243/128];
+var i = (pitch - base_tuning) % 12;
+var oct = Math.floor((pitch - base_tuning) / 12);
+frequency = Math.pow(2, oct) * ratios[i] * tuned_freq;</code></pre>
+    <table>
+      <tr><th>Degree</th><th>Ratio</th><th>Decimal</th><th>Cents</th></tr>
+      <tr><td>Unison</td><td>1/1</td><td>1.0000</td><td>0.0</td></tr>
+      <tr><td>m2</td><td>256/243</td><td>1.0535</td><td>90.2</td></tr>
+      <tr><td>M2</td><td>9/8</td><td>1.1250</td><td>203.9</td></tr>
+      <tr><td>m3</td><td>32/27</td><td>1.1852</td><td>294.1</td></tr>
+      <tr><td>M3</td><td>81/64</td><td>1.2656</td><td>407.8</td></tr>
+      <tr><td>P4</td><td>4/3</td><td>1.3333</td><td>498.0</td></tr>
+      <tr><td>TT</td><td>729/512</td><td>1.4238</td><td>611.7</td></tr>
+      <tr><td>P5</td><td>3/2</td><td>1.5000</td><td>702.0</td></tr>
+      <tr><td>m6</td><td>128/81</td><td>1.5802</td><td>792.2</td></tr>
+      <tr><td>M6</td><td>27/16</td><td>1.6875</td><td>905.9</td></tr>
+      <tr><td>m7</td><td>16/9</td><td>1.7778</td><td>996.1</td></tr>
+      <tr><td>M7</td><td>243/128</td><td>1.8984</td><td>1109.8</td></tr>
+    </table>
+    <p>Notice the Pythagorean major 3rd (81/64 = 407.8 cents) is sharper than the ET major 3rd (400 cents), contributing to its characteristic brightness.</p>
+
+    <h3>Just Intonation</h3>
+    <p>Intervals are tuned to <strong>simple whole-number ratios</strong>, producing the purest-sounding harmonies when playing in the base key but introducing problems when modulating to distant keys.</p>
+    <p><strong>Formula</strong> (from <code>audio.js</code>):</p>
+    <pre><code>var tuned_freq = Math.pow(2, (base_tuning - 69) / 12) * 440;
+var ratios = [1, 25/24, 9/8, 6/5, 5/4, 4/3, 45/32, 3/2, 8/5, 5/3, 9/5, 15/8];
+var i = (pitch - base_tuning) % 12;
+var oct = Math.floor((pitch - base_tuning) / 12);
+frequency = Math.pow(2, oct) * ratios[i] * tuned_freq;</code></pre>
+    <table>
+      <tr><th>Degree</th><th>Ratio</th><th>Decimal</th><th>Cents</th></tr>
+      <tr><td>Unison</td><td>1/1</td><td>1.0000</td><td>0.0</td></tr>
+      <tr><td>m2</td><td>25/24</td><td>1.0417</td><td>70.7</td></tr>
+      <tr><td>M2</td><td>9/8</td><td>1.1250</td><td>203.9</td></tr>
+      <tr><td>m3</td><td>6/5</td><td>1.2000</td><td>315.6</td></tr>
+      <tr><td>M3</td><td>5/4</td><td>1.2500</td><td>386.3</td></tr>
+      <tr><td>P4</td><td>4/3</td><td>1.3333</td><td>498.0</td></tr>
+      <tr><td>TT</td><td>45/32</td><td>1.4063</td><td>590.2</td></tr>
+      <tr><td>P5</td><td>3/2</td><td>1.5000</td><td>702.0</td></tr>
+      <tr><td>m6</td><td>8/5</td><td>1.6000</td><td>813.7</td></tr>
+      <tr><td>M6</td><td>5/3</td><td>1.6667</td><td>884.4</td></tr>
+      <tr><td>m7</td><td>9/5</td><td>1.8000</td><td>1017.6</td></tr>
+      <tr><td>M7</td><td>15/8</td><td>1.8750</td><td>1088.3</td></tr>
+    </table>
+    <p>The just major 3rd (5/4 = 386.3 cents) is flatter and more consonant than either the ET or Pythagorean versions.</p>
+
+    <h3>Base Note</h3>
+    <p>The <strong>base note</strong> selector (under Sound) sets the reference pitch from which Pythagorean and Just Intonation ratios are calculated. It has no effect in Equal Temperament. MIDI note values 36&ndash;47 (C2&ndash;B2) are used, but the choice of octave only affects the internal calculation reference &mdash; the ratios apply to all octaves.</p>
+
+    <hr>
+
+    <!-- Input Methods -->
+    <h2 id="input">Input Methods</h2>
+
+    <h3>MIDI</h3>
+    <p>TonnetzViz uses the <strong>Web MIDI API</strong> to receive input from any connected MIDI device. Under Controls:</p>
+    <ul>
+      <li><strong>MIDI port</strong>: select from detected input devices</li>
+      <li><strong>MIDI channel</strong>: filter to a specific channel (1&ndash;16), all channels, or all except drums (channel 10)</li>
+    </ul>
+    <p>Supported MIDI messages:</p>
+    <ul>
+      <li><strong>Note On</strong> (0x90): lights up the note on the Tonnetz. Velocity 0 is treated as Note Off.</li>
+      <li><strong>Note Off</strong> (0x80): releases the note</li>
+      <li><strong>Control Change</strong> (0xB0):
+        <ul>
+          <li>CC 64 (Sustain pedal): values &ge; 64 activate sustain, &lt; 64 release</li>
+          <li>CC 121 (All Controllers Off): releases sustain</li>
+          <li>CC 123 (All Notes Off): turns off all notes for that channel</li>
+        </ul>
+      </li>
+    </ul>
+    <p>MIDI input uses channels 0&ndash;15 directly. The keyboard uses channel 16 and the microphone uses channel 17 (internally numbered from 0).</p>
+
+    <h3>Computer Keyboard</h3>
+    <p>Two layouts are available:</p>
+
+    <h4>Piano Layout (default)</h4>
+    <p>Maps the middle two rows of a QWERTY keyboard to a piano-style chromatic scale starting from middle C (MIDI 60):</p>
+    <pre><code>  W  E     T  Y  U     O
+ C# D#    F# G# A#    C#
+A  S  D  F  G  H  J  K  L
+C  D  E  F  G  A  B  C  D</code></pre>
+    <p>The <code>Z</code> key also plays G# (as an alternate mapping).</p>
+
+    <h4>Tonnetz-like (Riemann) Layout</h4>
+    <p>Maps the entire keyboard to a hexagonal grid pattern mimicking the Tonnetz itself. The layout uses base pitch 72 (C5) and offsets are arranged so adjacent keys on the keyboard correspond to small intervals. Four rows of keys cover approximately 4 octaves:</p>
+    <pre><code>Row 1 (numbers):  1   2   3   4   5   6   7   8   9   0
+Row 2 (QWERTY):    Q   W   E   R   T   Y   U   I   O   P
+Row 3 (home):        A   S   D   F   G   H   J   K   L
+Row 4 (bottom):        Z   X   C   V   B   N   M</code></pre>
+    <p>Each row is offset by 4 semitones from the previous, and each column step is 7 semitones. The <code>G</code> key at position (0,0) plays C5 (MIDI 72).</p>
+
+    <h3>Microphone</h3>
+    <p>The microphone input uses <strong>autocorrelation-based pitch detection</strong> to identify the note being played/sung and light it up on the Tonnetz.</p>
+    <p><strong>How it works:</strong></p>
+    <ol>
+      <li>Audio is captured via <code>getUserMedia()</code> with echo cancellation, noise suppression, and auto gain control all disabled for accuracy</li>
+      <li>A <code>ScriptProcessorNode</code> (buffer size 2048) captures raw audio samples</li>
+      <li>The autocorrelation algorithm finds the fundamental frequency:
+        <ul>
+          <li>Computes the autocorrelation function of the audio buffer</li>
+          <li>Finds the first dip (where correlation goes negative), then the highest peak after that dip</li>
+          <li>Uses parabolic interpolation for sub-sample accuracy</li>
+          <li>Reports both frequency and clarity (correlation peak / correlation at lag 0)</li>
+        </ul>
+      </li>
+      <li>If clarity exceeds 0.7 and frequency is between 60 Hz (~B1) and 1500 Hz (~F#6), the detected pitch is converted to a MIDI note number and sent to the Tonnetz</li>
+    </ol>
+    <p><strong>Controls:</strong></p>
+    <ul>
+      <li><strong>Input device</strong>: select from available microphone inputs</li>
+      <li><strong>Start/Stop microphone</strong>: toggle audio capture</li>
+      <li><strong>Test: play A4 into detector</strong>: generates an internal 440 Hz sine wave to verify the detection pipeline works (runs for 3 seconds)</li>
+    </ul>
+    <p>The status display shows the detected note name, frequency, and clarity value.</p>
+
+    <hr>
+
+    <!-- Architecture -->
+    <h2 id="architecture">Architecture</h2>
+
+    <h3>File Structure</h3>
+    <pre><code>TonnetzViz/
+├── index.html              # Main app HTML
+├── help.html               # This guide
+├── start-servers.bat       # Launches both HTTP servers (ports 8083, 8084)
+├── INSTRUCTIONS.md         # Source for this guide
+├── css/
+│   ├── bootstrap.min.css   # Bootstrap 3 framework
+│   ├── font-awesome.min.css # Icon font
+│   └── style.css           # App-specific styles
+├── js/
+│   ├── main.js             # App initialization, UI event wiring
+│   ├── tonnetz.js          # Core Tonnetz module: grid computation, rendering
+│   ├── audio.js            # Web Audio synthesizer, tuning systems
+│   ├── midi.js             # Web MIDI API input handling
+│   ├── keyboard.js         # Computer keyboard input mapping
+│   ├── mic.js              # Microphone pitch detection
+│   ├── colorscheme.js      # Colour scheme management, editor
+│   ├── storage.js          # localStorage wrapper
+│   ├── jquery.min.js       # jQuery library
+│   ├── jquery.mousewheel.min.js # Mouse wheel plugin
+│   └── bootstrap.min.js    # Bootstrap JS
+├── color-schemes/
+│   ├── default.js          # Default colour scheme
+│   ├── greenonblack.js     # Green-on-black scheme
+│   └── apollo.js           # Apollo scheme
+├── images/
+│   └── keyboard-layout.svg # Riemann keyboard layout diagram
+├── tonnetzmic/             # TonnetzMic version
+│   ├── index.html
+│   ├── css/
+│   ├── js/
+│   ├── color-schemes/
+│   └── images/
+└── tests/                  # Test files</code></pre>
+
+    <h3>Module Descriptions</h3>
+    <table>
+      <tr><th>Module</th><th>Purpose</th></tr>
+      <tr><td><code>tonnetz.js</code></td><td>The core engine. Manages the pitch class grid, note states (OFF/GHOST/SUSTAIN/ON), rendering via Canvas 2D, and the hexagonal geometry. Exposes <code>noteOn()</code>, <code>noteOff()</code>, <code>sustainOn()</code>, <code>sustainOff()</code>, and <code>panic()</code>.</td></tr>
+      <tr><td><code>audio.js</code></td><td>Web Audio API synthesizer. Creates oscillator notes with configurable waveform (sine/square/sawtooth/triangle), implements three tuning systems, handles attack/release envelopes.</td></tr>
+      <tr><td><code>midi.js</code></td><td>Web MIDI API integration. Listens for MIDI messages on a selected port/channel and forwards note/sustain events to <code>tonnetz</code>.</td></tr>
+      <tr><td><code>keyboard.js</code></td><td>Maps computer keyboard events to MIDI-like note on/off messages. Supports piano and Riemann-style layouts. Uses channel 16.</td></tr>
+      <tr><td><code>mic.js</code></td><td>Microphone pitch detection via autocorrelation. Converts detected frequencies to MIDI note numbers and sends them to <code>tonnetz</code> on channel 17.</td></tr>
+      <tr><td><code>colorscheme.js</code></td><td>Manages colour schemes with a JSON-based editor. Handles dynamic stylesheet creation, custom scheme persistence via localStorage.</td></tr>
+      <tr><td><code>storage.js</code></td><td>Thin wrapper around <code>localStorage</code> with graceful fallback.</td></tr>
+      <tr><td><code>main.js</code></td><td>Initialization glue. Sets up all modules, wires UI controls to module methods, handles window events.</td></tr>
+    </table>
+
+    <h3>Data Flow</h3>
+    <div class="data-flow-diagram">Input Sources                Processing              Rendering
+─────────────              ──────────              ─────────
+MIDI device ──→ midi.js ──→
+Keyboard ────→ keyboard.js ─→  tonnetz.noteOn/Off()  ──→  tonnetz.draw()  ──→  Canvas 2D
+Microphone ──→ mic.js ─────→      │                         │
+                                  │                         ├─→ colorscheme.update()
+                                  ↓                         ├─→ Fill triangular faces
+                              audio.noteOn/Off()            ├─→ Draw edges
+                                  │                         ├─→ Draw vertices
+                                  ↓                         ├─→ Draw trajectory (if enabled)
+                              Web Audio API                 └─→ Update CSS labels
+                              (oscillators)</div>
+    <ol>
+      <li><strong>Input</strong> arrives from MIDI, keyboard, or microphone</li>
+      <li>Each input module calls <code>tonnetz.noteOn(channel, pitch)</code> or <code>tonnetz.noteOff(channel, pitch)</code></li>
+      <li><code>tonnetz</code> updates its internal tone state array (12 pitch classes, each tracking state per channel)</li>
+      <li><code>tonnetz</code> also forwards to <code>audio.noteOn/Off()</code> for sound generation</li>
+      <li><code>tonnetz.draw()</code> renders the current state to the canvas, throttled to at most once per 30ms</li>
+      <li>The colour scheme module provides colors for each state; dynamic CSS stylesheets control label colors</li>
+    </ol>
+
+    <hr>
+
+    <p><em>TonnetzViz was created by Ondrej Cifka in 2016, with contributions by Achille Aknin and Jesus Martinez-Blanco. Source code: <a href="https://github.com/cifkao/tonnetz-viz">GitHub</a></em></p>
+  </div>
+</body>
+</html>

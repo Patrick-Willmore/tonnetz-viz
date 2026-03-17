@@ -1,0 +1,218 @@
+a:link.external:after {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 75%;
+  display: inline-block;
+  margin-left: 0.3em;
+  margin-right: 0.1em;
+  text-decoration: none;
+  content: "\f08e";
+}
+
+
+#top-container {
+  min-width: 100%;
+}
+
+#navbar {
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+.navbar-left {
+  margin-left: 10px;
+}
+
+#tabs {
+  background: #fafafa;
+  border: 1px solid #b3b3b3;
+  border-top: none;
+}
+
+#tabs .tab-pane {
+  padding: 10px;
+  padding-top: 20px;
+}
+
+#tabs .tab-pane .panel-default>.panel-heading {
+  background: #eaeaea;
+}
+
+
+.keyboard .key {
+  float: left;
+  text-align: center;
+  position: relative;
+}
+
+.keyboard .key span {
+  height: 100%;
+  line-height: 45px;
+}
+
+.keyboard .white.key {
+  background: #fff;
+  color: #000;
+  outline: 1px solid #aaa;
+  width: 11.1%;
+  height: 100px;
+}
+
+.keyboard .white.key span {
+  position: relative;
+  top: 55px;
+}
+
+.keyboard .black.key {
+  height: 55px;
+  width: 8%;
+  margin-right: -8%;
+}
+
+.keyboard .black.key span {
+  background: #111;
+  color: #fff;
+  outline: 1px solid #000;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: -50%;
+  line-height: 50px;
+  z-index: 2;
+}
+
+#panic {
+  margin-bottom: 10px;
+}
+
+
+#messages-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+}
+
+#scheme-editor .modal-dialog {
+  height: calc(100% - 60px);
+}
+
+#scheme-editor .modal-content {
+  height: 100%;
+}
+
+#scheme-editor .modal-body {
+  max-height: calc(100% - 120px);
+  overflow-y: scroll;
+}
+
+#scheme-editor-holder h3 {
+  font-size: 120%;
+  margin-top: 0;
+  margin-bottom: 0.5ex;
+}
+
+#scheme-editor-holder textarea {
+  font-family: monospace;
+}
+
+
+#tonnetz {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.labels {
+  color: transparent;
+}
+
+.labels > div {
+  position: absolute;
+}
+
+.labels > div > div {
+  margin-left: -50%;
+  line-height: 1em;
+  margin-top: -0.4em;
+}
+
+.navbar-inverse .navbar-brand:focus {
+  background-color: transparent;
+  color: #999999;
+}
+
+.navbar-inverse .navbar-brand:hover {
+  color: #ffffff;
+}
+
+.fa-ul li {
+  margin-bottom: 0.25em;
+}
+
+#trichord-selector {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  font-family: monospace;
+  font-size: 14px;
+  user-select: none;
+}
+
+#trichord-selector table {
+  border-collapse: collapse;
+}
+
+#trichord-selector td {
+  border: 1px solid #ccc;
+  padding: 6px 16px;
+  cursor: pointer;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+#trichord-selector td:hover {
+  background: #e0e0e0;
+}
+
+#trichord-selector td.active {
+  background: #2c3e50;
+  color: #fff;
+}
+
+#toggle-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  font-family: sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-btn:hover {
+  background: #e0e0e0;
+}
+
+.toggle-btn.active {
+  background: #2c3e50;
+  color: #fff;
+  border-color: #2c3e50;
+}

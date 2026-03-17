@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TonnetzViz: Singer's Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #2c3e50;
+      background: #f8f9fa;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 8px;
+      color: #1a252f;
+    }
+
+    .subtitle {
+      font-size: 1.05em;
+      color: #6c757d;
+      margin-bottom: 32px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #dee2e6;
+      margin: 32px 0;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e9ecef;
+      color: #1a252f;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: #2c3e50;
+    }
+
+    p {
+      margin-bottom: 14px;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    ul, ol {
+      margin-bottom: 14px;
+      padding-left: 28px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    strong { color: #1a252f; }
+
+    .toc {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin-bottom: 32px;
+    }
+    .toc h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.1em;
+    }
+    .toc ol {
+      margin-bottom: 0;
+    }
+    .toc li {
+      margin-bottom: 4px;
+    }
+
+    .visual-key {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-weight: 600;
+      font-size: 0.92em;
+      margin: 0 2px;
+      vertical-align: middle;
+    }
+    .swatch-blue {
+      background: #2c4885;
+      color: #fff;
+    }
+    .swatch-yellow {
+      background: #faf7db;
+      color: #6b5f20;
+      border: 1px solid #e0d99a;
+    }
+    .swatch-cream {
+      background: #eeebc9;
+      color: #6b5f20;
+      border: 1px solid #d5d0a0;
+    }
+    .swatch-orange {
+      background: rgba(255, 140, 60, 0.5);
+      color: #5a2800;
+      border: 1px solid rgba(255, 100, 40, 0.6);
+    }
+    .swatch-blue-ring {
+      background: transparent;
+      color: #3498db;
+      border: 2px solid rgba(100, 180, 255, 0.8);
+    }
+    .swatch-green-ring {
+      background: transparent;
+      color: #4a9e30;
+      border: 2px solid rgba(120, 220, 90, 0.8);
+    }
+    .swatch-region {
+      background: rgba(100, 140, 220, 0.25);
+      color: #2c4885;
+      border: 1px solid rgba(100, 140, 220, 0.4);
+    }
+    .swatch-ghost {
+      background: #aeaeae;
+      color: #fff;
+    }
+    .swatch-red {
+      background: rgba(255, 50, 20, 0.9);
+      color: #fff;
+    }
+    .swatch-flow {
+      background: rgba(255, 80, 40, 0.3);
+      color: #6b2000;
+      border: 1px solid rgba(255, 80, 40, 0.5);
+    }
+
+    .color-legend {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+      font-size: 0.92em;
+    }
+    .color-legend th, .color-legend td {
+      border: 1px solid #dee2e6;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .color-legend th {
+      background: #2c3e50;
+      color: #fff;
+      font-weight: 600;
+    }
+    .color-legend tr:nth-child(even) {
+      background: #f1f3f5;
+    }
+
+    .scenario {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 18px;
+    }
+    .scenario h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #2c3e50;
+      font-size: 1.05em;
+    }
+    .scenario p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tip {
+      background: #eaf4ff;
+      border-left: 4px solid #3498db;
+      padding: 14px 18px;
+      margin: 18px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .tip strong {
+      color: #2980b9;
+    }
+
+    .links-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .links-row a {
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">&larr; Back to TonnetzViz</a>
+
+    <h1>Singer's Guide to TonnetzViz</h1>
+    <p class="subtitle">A plain-language walkthrough of everything you see on screen when you sing into TonnetzViz &mdash; what the shapes, colors, and labels mean, and how to use them to find the right accompaniment.</p>
+
+    <div class="links-row">
+      <a href="help.html">Full technical guide &rarr;</a>
+    </div>
+
+    <div class="toc">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#what-is-this">What Am I Looking At?</a></li>
+        <li><a href="#singing">What Happens When I Sing</a></li>
+        <li><a href="#color-guide">Color Guide &mdash; What Every Color Means</a></li>
+        <li><a href="#triangles">The Triangles: Chords Made Visible</a></li>
+        <li><a href="#key-detection">Key Detection</a></li>
+        <li><a href="#trace">The Trace: Your Song's Chord Map</a></li>
+        <li><a href="#accompaniment">Using This for Accompaniment</a></li>
+        <li><a href="#scenarios">Example Scenarios</a></li>
+        <li><a href="#controls">Controls Quick Reference</a></li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <h2 id="what-is-this">What Am I Looking At?</h2>
+    <p>The screen shows a <strong>Tonnetz</strong> (German for "tone network") &mdash; a grid of dots where each dot is a musical note (C, D, E, etc.). The dots are arranged so that notes which sound good together are always <em>right next to each other</em>.</p>
+    <p>The key insight: <strong>every chord is a triangle.</strong> Three notes that form a chord will always be three dots that make a triangle on the grid. This means you can literally <em>see</em> the harmony of what you're singing.</p>
+    <p>The grid repeats in every direction (like wallpaper), so the same note appears in multiple places. This is normal &mdash; it's how the geometry works.</p>
+
+    <hr>
+
+    <h2 id="singing">What Happens When I Sing</h2>
+    <ol>
+      <li><strong>You sing a note</strong> &mdash; the microphone detects the pitch</li>
+      <li><strong>A dot lights up</strong> <span class="visual-key swatch-blue">blue</span> on the grid &mdash; that's your note</li>
+      <li><strong>When you move to a new note</strong>, the old dot fades to <span class="visual-key swatch-ghost">grey</span> briefly (this is the "ghost" &mdash; it shows where you just were)</li>
+      <li><strong>If 3 notes form a chord</strong>, a colored triangle fills in between them</li>
+      <li><strong>The key display</strong> at the top analyzes your singing over time and tells you what key you're in</li>
+    </ol>
+
+    <div class="tip">
+      <strong>Tip:</strong> Sing slowly and clearly at first. The microphone needs a steady tone to detect your pitch accurately. You'll see the status bar show the detected note name, frequency, and a "clarity" number &mdash; higher clarity means a cleaner detection.
+    </div>
+
+    <hr>
+
+    <h2 id="color-guide">Color Guide &mdash; What Every Color Means</h2>
+    <p>Here's a complete reference for everything you'll see on screen:</p>
+
+    <h3>The Dots (Notes)</h3>
+    <table class="color-legend">
+      <tr><th>Color</th><th>What It Means</th></tr>
+      <tr>
+        <td><span class="visual-key swatch-blue">Dark blue</span></td>
+        <td><strong>Active note</strong> &mdash; this is the note you're singing right now. The dot fills dark blue and its label turns white.</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-ghost">Grey</span></td>
+        <td><strong>Ghost note</strong> &mdash; you just stopped singing this note. It fades away after about half a second. Helps you see where you just were.</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-blue-ring">Blue ring</span></td>
+        <td><strong>Diatonic scale note</strong> &mdash; once the system detects your key, all 7 notes of that scale get a subtle blue ring. These are the "home" notes of your key &mdash; notes that will generally sound consonant with your melody.</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-green-ring">Green ring</span></td>
+        <td><strong>Suggested next note</strong> &mdash; when "Suggest" is enabled, notes that would complete a chord with what you're currently singing get a green ring. These are harmonically strong choices for where to go next.</td>
+      </tr>
+    </table>
+
+    <h3>The Triangles (Chords)</h3>
+    <table class="color-legend">
+      <tr><th>Color</th><th>What It Means</th></tr>
+      <tr>
+        <td><span class="visual-key swatch-yellow">Light yellow</span></td>
+        <td><strong>Major chord</strong> &mdash; three notes you're singing (or that are ringing) form a major triad. Major chords sound bright and happy. The label on the triangle shows the chord name in <strong>UPPERCASE</strong> (e.g., C, G, F).</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-cream">Cream</span></td>
+        <td><strong>Minor chord</strong> &mdash; three notes form a minor triad. Minor chords sound darker or more emotional. The label shows the chord name in <strong>lowercase</strong> (e.g., c, a, e).</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-region">Light blue wash</span></td>
+        <td><strong>Nearby chords</strong> (Regions feature) &mdash; when enabled, triangles near an active chord get a faint blue wash. Brighter blue = one step away from a chord you're playing. Fainter blue = two steps away. These are chords that share notes with what you're singing, making them natural choices for accompaniment.</td>
+      </tr>
+    </table>
+
+    <h3>The Trace (Chord History)</h3>
+    <table class="color-legend">
+      <tr><th>Color</th><th>What It Means</th></tr>
+      <tr>
+        <td><span class="visual-key swatch-orange">Orange triangle</span></td>
+        <td><strong>Detected chord</strong> &mdash; when you sing 3 notes that form a chord, the trace draws a filled orange triangle with the chord name (e.g., "C" or "Am") labeled inside.</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-flow">Thin orange line</span></td>
+        <td><strong>Chord progression</strong> &mdash; a faint line connects the centers of your detected chords in order, showing the harmonic path of your song.</td>
+      </tr>
+      <tr>
+        <td><span class="visual-key swatch-red">Red dot</span></td>
+        <td><strong>Latest note</strong> &mdash; the most recent note or chord in your trace is highlighted bright red so you can see where you are.</td>
+      </tr>
+      <tr>
+        <td>Small dim dot</td>
+        <td><strong>Passing tone</strong> &mdash; a note that didn't form part of a chord. These are normal &mdash; melodies have passing tones, neighbor tones, and other non-chord notes between the structural harmony.</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h2 id="triangles">The Triangles: Chords Made Visible</h2>
+    <p>This is the heart of what makes the Tonnetz useful for a singer. On the standard grid:</p>
+    <ul>
+      <li>Every set of 3 adjacent dots forms a <strong>triangle</strong></li>
+      <li>Every triangle <em>is</em> a chord (technically a "triad" &mdash; a 3-note chord)</li>
+      <li>Triangles pointing one way are <strong>major chords</strong> <span class="visual-key swatch-yellow">yellow</span></li>
+      <li>Triangles pointing the other way are <strong>minor chords</strong> <span class="visual-key swatch-cream">cream</span></li>
+    </ul>
+
+    <h3>When do they light up?</h3>
+    <p>A triangle fills with color when <strong>all 3 of its notes are active at the same time</strong>. For a singer, this usually means:</p>
+    <ul>
+      <li>You're singing one note, and 2 others are still "ghosting" (fading) &mdash; all 3 briefly overlap</li>
+      <li>Or you're singing while an instrument plays the other notes</li>
+      <li>Or the sustain pedal is holding previous notes</li>
+    </ul>
+
+    <h3>Why do the triangles matter?</h3>
+    <p>They tell an accompanist exactly what chord fits your melody <em>right now</em>. If you see a yellow triangle light up with "G" in it, that means your recent notes outline a G major chord &mdash; so the band or pianist can play G major and it will sound right.</p>
+
+    <h3>What about different trichords?</h3>
+    <p>The grid can be reconfigured to use different interval structures (called "trichords"). The standard [3,4,5] grid uses minor thirds and major thirds &mdash; the intervals that build traditional Western chords. But TonnetzViz can also analyze your singing and automatically switch to whichever trichord best fits the intervals in your melody. When the grid changes, the triangles still work the same way &mdash; they just represent different types of 3-note structures.</p>
+
+    <hr>
+
+    <h2 id="key-detection">Key Detection</h2>
+    <p>After you've sung about 20 notes, the system starts displaying the detected key at the top of the screen (e.g., "Probably G major" or "Probably E minor").</p>
+
+    <h3>How it works</h3>
+    <ol>
+      <li>It keeps a rolling window (about 15 seconds) of every note you sing</li>
+      <li>It builds a histogram &mdash; which notes appear most, and for how long</li>
+      <li>It compares this against known key profiles (what notes are typical for each key)</li>
+      <li>The best match is displayed, but only after it's been stable for several analysis cycles (to avoid flickering between keys)</li>
+    </ol>
+
+    <h3>What the key tells you</h3>
+    <ul>
+      <li><strong>For the accompanist:</strong> the key tells you what chords to draw from. In G major, the natural chords are G, Am, Bm, C, D, Em, and F#dim.</li>
+      <li><strong>For the singer:</strong> the blue-ringed notes on the grid show you the 7 notes "in your key." If you tend to sing those notes, you're staying in key. Notes without the ring are chromatic (outside the key) &mdash; not wrong, just more colorful.</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Tip:</strong> If you're singing a song that changes key (a modulation), the display will eventually catch up. It takes a few seconds to stabilize on the new key, which is intentional &mdash; it avoids false alarms from passing notes.
+    </div>
+
+    <hr>
+
+    <h2 id="trace">The Trace: Your Song's Chord Map</h2>
+    <p>When the <strong>Trace</strong> feature is turned on, TonnetzViz records your melody and builds a visual map of the chords your singing outlines over time.</p>
+
+    <h3>What you'll see</h3>
+    <ul>
+      <li><strong>Orange triangles with chord names</strong> &mdash; every time your last 3 distinct notes form a chord on the current grid, they collapse into a labeled triangle (e.g., "C", "Am", "G")</li>
+      <li><strong>A thin connecting line</strong> between the triangles &mdash; this shows the order of your chord progression</li>
+      <li><strong>Small dim dots</strong> for notes that didn't form a chord &mdash; these are passing tones in your melody</li>
+      <li><strong>A bright red marker</strong> on the most recent entry</li>
+    </ul>
+
+    <h3>How chord detection works for singers</h3>
+    <p>Unlike a piano where you can press 3 keys at once, a singer produces notes <strong>one at a time</strong>. The trace watches your notes in sequence:</p>
+    <ol>
+      <li>You sing a C &mdash; a dot appears</li>
+      <li>You sing an E &mdash; another dot appears</li>
+      <li>You sing a G &mdash; the system recognizes that C, E, G form a C major chord. The 3 dots collapse into a single orange "C" triangle</li>
+    </ol>
+    <p>This happens automatically. The detection only looks at consecutive notes (it won't skip over a triad boundary to combine distant notes), so the results reflect the actual flow of your melody.</p>
+
+    <h3>Replay</h3>
+    <p>After singing, you can press the <strong>Replay</strong> button to watch a playhead animate through your chord progression. This is useful for reviewing what you sang and seeing the harmonic motion on the grid.</p>
+
+    <hr>
+
+    <h2 id="accompaniment">Using This for Accompaniment</h2>
+    <p>This is the core use case: a singer performs, and a musician watches TonnetzViz to build accompaniment in real time. Here's what to watch:</p>
+
+    <h3>1. Wait for the key</h3>
+    <p>Give the singer 10&ndash;15 seconds. The key display will stabilize to something like "Probably D major." This is your tonal center &mdash; the home chord and scale for the song.</p>
+
+    <h3>2. Watch the triangles</h3>
+    <p>As the singer continues, watch which triangles light up on the grid:</p>
+    <ul>
+      <li><span class="visual-key swatch-yellow">Yellow</span> triangles = major chords (brighter, happier)</li>
+      <li><span class="visual-key swatch-cream">Cream</span> triangles = minor chords (darker, more emotional)</li>
+      <li>The chord labels on each triangle tell you the name</li>
+    </ul>
+
+    <h3>3. Use the regions</h3>
+    <p>Turn on <strong>Regions</strong> to see <span class="visual-key swatch-region">blue-washed</span> triangles near the active chord. These are neighboring chords that share notes &mdash; they'll sound smooth if you move to them. Great for adding passing chords or fills.</p>
+
+    <h3>4. Read the trace</h3>
+    <p>If <strong>Trace</strong> is on, the orange triangles and connecting line show the singer's chord progression over time. This helps you spot patterns &mdash; if the singer keeps going C &rarr; Am &rarr; F &rarr; G, you know the progression and can anticipate the next chord.</p>
+
+    <h3>5. Follow the suggestions</h3>
+    <p>Turn on <strong>Suggest</strong> to see <span class="visual-key swatch-green-ring">green rings</span> around notes that would complete a chord with what's currently sounding. If you're playing an instrument alongside, these tell you what note to add to create harmony.</p>
+
+    <hr>
+
+    <h2 id="scenarios">Example Scenarios</h2>
+
+    <div class="scenario">
+      <h4>Singer performs "Let It Be"</h4>
+      <p>The singer starts. After a few phrases, the key display shows <strong>"Probably C major."</strong> The diatonic notes (C, D, E, F, G, A, B) get blue rings on the grid.</p>
+      <p>As the melody moves through C&ndash;E&ndash;G, a <span class="visual-key swatch-yellow">yellow "C"</span> triangle lights up. Then the melody moves to A&ndash;C&ndash;E, and a <span class="visual-key swatch-cream">cream "a"</span> triangle appears. The trace shows: <strong>C &rarr; Am &rarr; F &rarr; G</strong> &mdash; the classic progression, visible as a chain of labeled orange triangles.</p>
+      <p>The accompanist sees this pattern and plays along confidently.</p>
+    </div>
+
+    <div class="scenario">
+      <h4>Singer improvises in an unfamiliar mode</h4>
+      <p>The singer uses notes from the Dorian mode. At first, the key display might flicker between minor and major. After several phrases it settles on <strong>"Probably D minor"</strong> (Dorian is close to natural minor).</p>
+      <p>The accompanist watches the triangles: mostly <span class="visual-key swatch-cream">minor triads</span> lighting up, with occasional <span class="visual-key swatch-yellow">major</span> ones. The regions feature shows which nearby chords share notes with whatever is active, helping the accompanist pick chords that fit the modal sound.</p>
+    </div>
+
+    <div class="scenario">
+      <h4>Auto-trichord adapts to the music</h4>
+      <p>The singer's melody uses intervals that don't fit the standard [3,4] grid well (perhaps lots of 4ths and 2nds, like a quartal/sus2 sound). With <strong>Auto-trichord</strong> enabled, the system detects this and switches the grid to [2,5] (whole tone + perfect 4th). Now the triangles represent sus2/quartal structures instead of traditional triads, and the chord labels reflect the actual harmony of the singing.</p>
+    </div>
+
+    <hr>
+
+    <h2 id="controls">Controls Quick Reference</h2>
+    <table class="color-legend">
+      <tr><th>Control</th><th>What It Does</th></tr>
+      <tr>
+        <td><strong>Start/Stop Microphone</strong></td>
+        <td>Begin or end listening to your voice. Select your mic from the dropdown first.</td>
+      </tr>
+      <tr>
+        <td><strong>Trace</strong></td>
+        <td>Toggle the chord history trail. When on, it records and displays the chords your melody outlines.</td>
+      </tr>
+      <tr>
+        <td><strong>Clear Trajectory</strong></td>
+        <td>Erase the current trace and start fresh.</td>
+      </tr>
+      <tr>
+        <td><strong>Replay</strong></td>
+        <td>Animate a playhead through the recorded trace. Speed can be adjusted (Slow / Normal / Fast).</td>
+      </tr>
+      <tr>
+        <td><strong>Regions</strong></td>
+        <td>Show nearby chords with a blue wash. Great for finding related chords.</td>
+      </tr>
+      <tr>
+        <td><strong>Suggest</strong></td>
+        <td>Show green rings on notes that would complete a chord. Helps find harmonically strong notes.</td>
+      </tr>
+      <tr>
+        <td><strong>Key Analysis</strong></td>
+        <td>Enabled automatically with the microphone. Shows the detected key at the top of the screen.</td>
+      </tr>
+      <tr>
+        <td><strong>Auto-trichord</strong></td>
+        <td>Let the system choose the best grid intervals to match your singing.</td>
+      </tr>
+      <tr>
+        <td><strong>Ghost duration</strong></td>
+        <td>How long released notes stay visible (default 500ms). Increase this to see more overlap between consecutive notes, which helps more triangles light up when singing one note at a time.</td>
+      </tr>
+      <tr>
+        <td><strong>Zoom (+/&minus;)</strong></td>
+        <td>Mouse wheel or +/&minus; keys. Zoom in to see fewer, larger triangles, or out to see more of the grid.</td>
+      </tr>
+      <tr>
+        <td><strong>Panic</strong></td>
+        <td>Turn off all notes immediately. Useful if something gets stuck.</td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      <strong>Tip for singers:</strong> Increase the <strong>ghost duration</strong> to 1000ms or more. Since you sing one note at a time, a longer ghost means your previous notes stay visible longer, giving the system more chance to show complete chord triangles. This is the single most useful setting for vocal use.
+    </div>
+
+    <hr>
+
+    <p><em>TonnetzViz was created by Ondrej Cifka in 2016, with contributions by Achille Aknin and Jesus Martinez-Blanco. Source: <a href="https://github.com/cifkao/tonnetz-viz">GitHub</a></em></p>
+  </div>
+</body>
+</html>

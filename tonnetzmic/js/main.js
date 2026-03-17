@@ -15,14 +15,6 @@ $(function(){
   keyboard.init('piano');
   mic.init();
 
-  // Microphone controls
-  $('#navbar-mic-toggle, #mic-check').click(function(e) {
-    e.preventDefault();
-    $('#mic-toggle').click();
-  });
-
-
-
   $('#tonnetz').mousewheel(function(event) {
     tonnetz.setDensity(tonnetz.density - event.deltaY);
     return false;
@@ -96,66 +88,17 @@ $(function(){
   $('#dual-btn').click(function() {
     tonnetz.toggleDual();
     $(this).toggleClass('active');
+    $(this).blur();
+    if (tonnetz.dualMode) {
+      $(triadLabels).show();
+    }
   });
 
-  // Trace trajectory
-  $('#trace-check').change(function() {
+  $('#trace-btn').click(function() {
     tonnetz.toggleTrace();
-    if ($(this).is(':checked')) {
-      $('#replay-controls').show();
-      updateReplayButton();
-    } else {
-      $('#replay-controls').hide();
-    }
+    $(this).toggleClass('active');
+    $(this).blur();
   });
-
-  // Replay controls
-  $('#replay-btn').click(function() {
-    if (tonnetz.isReplaying()) {
-      tonnetz.stopReplay();
-      $(this).text('Replay').removeClass('replaying');
-    } else {
-      tonnetz.startReplay();
-      $(this).text('Stop').addClass('replaying');
-    }
-  });
-
-  $('.replay-speed-btn').click(function() {
-    var speed = parseInt($(this).data('speed'));
-    tonnetz.setReplaySpeed(speed);
-    $('.replay-speed-btn').removeClass('active');
-    $(this).addClass('active');
-  });
-
-  $(document).on('tonnetz:drawn', updateReplayButton);
-
-  $(document).on('tonnetz:replayEnd', function() {
-    $('#replay-btn').text('Replay').removeClass('replaying');
-    updateReplayButton();
-  });
-
-  // Key analysis
-  keyAnalysis.init();
-
-  // Note recorder (CSV export on mic stop)
-  noteRecorder.init();
-  $('#auto-trichord-check').change(function() {
-    keyAnalysis.autoTrichordEnabled = $(this).is(':checked');
-  });
-
-  $('#regions-check').change(function() {
-    tonnetz.toggleRegions();
-  });
-
-  $('#suggest-check').change(function() {
-    tonnetz.toggleSuggest();
-  });
-
-  // Initialize default-on features (must be after handlers are bound)
-  $('#trace-check').trigger('change');
-  $('#auto-trichord-check').trigger('change');
-  $('#regions-check').trigger('change');
-  $('#suggest-check').trigger('change');
 
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -196,15 +139,6 @@ function showAlert(text, type) {
   var numMessages = $('#messages').children().length;
   if (numMessages > 3) {
     $('#messages').children().slice(0, numMessages-3).alert('close');
-  }
-}
-
-function updateReplayButton() {
-  var $btn = $('#replay-btn');
-  if (tonnetz.isReplaying()) {
-    $btn.prop('disabled', false);
-  } else {
-    $btn.prop('disabled', tonnetz.getTrajectoryLength() < 2);
   }
 }
 

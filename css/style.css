@@ -28,6 +28,8 @@ a:link.external:after {
   background: #fafafa;
   border: 1px solid #b3b3b3;
   border-top: none;
+  position: relative;
+  z-index: 200;
 }
 
 #tabs .tab-pane {
@@ -155,6 +157,270 @@ a:link.external:after {
   color: #ffffff;
 }
 
+#navbar-mic-toggle {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+#navbar-mic-toggle .fa-microphone {
+  margin-right: 5px;
+}
+
+#navbar-mic-toggle.btn-success {
+  background-color: #27ae60;
+  border-color: #229954;
+}
+
+#navbar-mic-toggle.btn-success:hover {
+  background-color: #229954;
+  border-color: #1e8449;
+}
+
 .fa-ul li {
   margin-bottom: 0.25em;
+}
+
+#trichord-selector {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 100;
+  font-family: monospace;
+  font-size: 14px;
+  user-select: none;
+}
+
+#trichord-selector table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+#trichord-selector tr:first-child td:first-child {
+  border-top-left-radius: 8px;
+}
+
+#trichord-selector tr:first-child td:last-child {
+  border-top-right-radius: 8px;
+}
+
+#trichord-selector tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+#trichord-selector tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+#trichord-selector td {
+  border: 1px solid #ccc;
+  padding: 6px 16px;
+  cursor: pointer;
+  background: #f5f5f5;
+  text-align: center;
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+#trichord-selector td:hover {
+  background: #e0e0e0;
+}
+
+#trichord-selector td.active {
+  background: #2c3e50;
+  color: #fff;
+}
+
+/* Tooltip styles */
+#trichord-selector td[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c3e50;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 200;
+}
+
+#trichord-selector td[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #2c3e50;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 200;
+}
+
+#trichord-selector td[data-tooltip]:hover::after,
+#trichord-selector td[data-tooltip]:hover::before {
+  opacity: 1;
+}
+
+#trichord-selector #dual-btn {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
+#trace-label,
+#auto-trichord-label,
+#regions-label,
+#suggest-label {
+  display: block;
+  padding: 4px 8px;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #555;
+}
+
+#replay-controls {
+  padding: 4px 8px;
+}
+
+#replay-btn {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+#replay-btn:hover:not(:disabled) {
+  background: #34495e;
+}
+
+#replay-btn:disabled {
+  background: #7f8c8d;
+  cursor: default;
+  opacity: 0.6;
+}
+
+#replay-btn.replaying {
+  background: #c0392b;
+}
+
+#replay-btn.replaying:hover {
+  background: #e74c3c;
+}
+
+.replay-speed-btn {
+  background: #bdc3c7;
+  color: #2c3e50;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.replay-speed-btn:hover {
+  background: #95a5a6;
+}
+
+.replay-speed-btn.active {
+  background: #2c3e50;
+  color: #fff;
+}
+
+#pitch-indicator {
+  position: fixed;
+  top: 52px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-family: monospace;
+  padding: 8px 14px;
+  border-radius: 8px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  min-width: 80px;
+}
+
+#pitch-indicator .pitch-note {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#pitch-indicator .pitch-cents {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+#pitch-indicator .pitch-bar {
+  position: relative;
+  width: 80px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  margin: 6px auto 0;
+}
+
+#pitch-indicator .pitch-bar-center {
+  position: absolute;
+  left: 50%;
+  top: -1px;
+  width: 2px;
+  height: 8px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 1px;
+}
+
+#pitch-indicator .pitch-bar-fill {
+  position: absolute;
+  top: -2px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: #2ecc71;
+  transition: left 0.08s ease-out, background 0.15s ease;
+}
+
+#audiofile-status {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#key-display {
+  position: fixed;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
